@@ -39,6 +39,10 @@ public class Account_level1 {
             if(ac1.This_Year_Total_level__c >=100000 ){
                 ac1.Level_c__c=Label.Founders_Circle;
             }
+            system.debug('Test test');
+            system.debug('Test test');
+            system.debug('Test test');
+            system.debug('Test test');
     }
     }
 
