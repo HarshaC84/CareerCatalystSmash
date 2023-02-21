@@ -32,6 +32,10 @@ private class Account_approval_Test{
         obj01.allSelect = false;
         obj01.selectedAccountIds = new Set<Id>();
         obj01.selectedAccounts();
+        system.debug('Test test');
+        system.debug('Test test');
+        system.debug('Test test');
+        system.debug('Test test');
     }
     
     static testMethod void test_selectedAccounts_UseCase2(){
