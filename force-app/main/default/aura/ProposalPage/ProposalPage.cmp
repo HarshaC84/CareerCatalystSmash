@@ -1,0 +1,130 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction,lightning:actionOverride"
+                access="global" controller="ProposalController">
+    
+     <aura:handler event="force:refreshView" action="{!c.isRefreshed}" />
+                                                                                                              
+     <aura:attribute name="ThiscontactID" type="string"/>
+     <aura:attribute name="PType" type="String" />
+     <aura:attribute name="status" type="String" />
+    <aura:attribute name="Region" type="String" />
+	    <article class="slds-card">
+        <br/><br/>
+        <div class="slds-p-bottom_large slds-p-left_large" >
+            
+
+        <lightning:recordEditForm aura:id="editForm" objectApiName="Proposal__c" onsuccess="{!c.handleSuccess}" >
+            <lightning:messages />
+         <h3 class="slds-section-title--divider">Personal Information</h3>                       
+       <div class="slds-grid slds-gutters">  
+           
+            
+  
+          <div class="slds-col">
+                  
+          <div class="slds-size_1-of-2">
+          <div class="slds-m-left_xx-large">
+          
+        
+         <lightning:inputField fieldName="ProposalNameDup__c" aura:id="newProposalField" required="true" style="width: 440px !important;" />
+         <lightning:inputField fieldName="Proposal_Type__c" value="{!v.PType }" required="true" style="width: 440px !important;"/>
+            
+            
+               <aura:if isTrue="{! v.PType == 'Individual' }">
+        <lightning:inputField  fieldName="Contact__c" required="true" style="width: 440px !important;"/>
+                </aura:if>
+            
+           <aura:if isTrue="{!v.PType == 'Organization' }">
+        <lightning:inputField  fieldName="Account__c" required="true" style="width: 440px !important;"/>
+             </aura:if>
+            
+         <lightning:inputField fieldName="Status__c"  value="{!v.status }" required="true" style="width: 440px !important;" />
+         <lightning:inputField fieldName="Deadline__c" style="width: 440px !important;"/>  
+         <lightning:inputField fieldName="Probability__c" style="width: 440px !important;"/> 
+              
+            
+          
+      <lightning:inputField fieldName="Comments1__c" html-autocomplete="On" style="width: 440px !important;" />
+              
+            
+               <lightning:inputField fieldName="Region1__c" style="width: 440px !important;"/> 
+         
+            
+          </div>                          
+          </div>
+              
+              </div>
+        <div class="slds-col">
+             <div class="slds-size_1-of-3">
+               
+            <lightning:inputField fieldName="Campaign__c"  html-autocomplete="On" style="width: 520px !important;"/>
+                  <lightning:inputField fieldName="Finance_Bucket__c"  html-autocomplete="On" style="width: 520px !important;"/>
+             <lightning:inputField fieldName="SMASH_Site_Interest__c"  style="width: 520px !important;"/>      
+            <lightning:inputField fieldName="Development_Team_Point_Person_1__c" required="true" html-autocomplete="On" style="width: 520px !important;"/>
+            <lightning:inputField fieldName="Development_Team_Point_Person_2__c" style="width: 520px !important;"/> 
+             
+           
+             
+               
+          </div>  
+           </div>
+        </div>
+                         
+         <h3 class="slds-section-title--divider">Amount Information</h3>                       
+       <div class="slds-grid slds-gutters">
+           
+          <div class="slds-col">
+               <div class="slds-size_1-of-2">
+                    <div class="slds-m-left_xx-large">
+          <lightning:inputField fieldName="Amount_Asked__c" styleClass="requiredInput"  required="true" style="width: 440px !important;"/>
+           <lightning:inputField fieldName="Amount_Expected__c" style="width: 440px !important;"/>
+         <lightning:inputField fieldName="Amount_Approved__c" styleClass="requiredInput"  style="width: 440px !important;"/>
+           
+          </div> 
+            </div>
+           </div>
+        <div class="slds-col">
+             <div class="slds-size_1-of-2">
+                 
+            <lightning:inputField fieldName="Date_Asked__c" styleClass="requiredInput"  required="true" style="width: 500px !important;"/>
+             <lightning:inputField fieldName="Date_Expected__c"  style="width: 500px !important;"/>
+            <lightning:inputField fieldName="Date_Approved__c" styleClass="requiredInput"  style="width: 500px !important;" /> 
+             
+                
+            </div>
+          </div>  
+        </div>
+        
+           <!--    <h3 class="slds-section-title-divider">Linked Gift Section</h3> -->
+         <!--    <div class="slds-size_1-of-2">
+                 <div class="slds-m-left_xx-large">
+           <aura:if isTrue="{! v.status == 'Approved' }">
+        <lightning:inputField  fieldName="Linked_Gift__c" required="true" style="width: 440px !important;" />
+                </aura:if>
+            </div>
+            </div> -->
+            
+           <div class="slds-m-top_medium slds-text-align_center">
+    <Center>
+       <lightning:button variant="brand" type="submit" name="Save" label="Save" />
+     
+       <lightning:button variant="brand" type="cancel" name="cancel" label="Cancel" onclick="{!c.onCancel}"/>
+        
+      
+                 </Center>
+            </div>
+      </lightning:recordEditForm>  
+       <lightning:navigation aura:id="navService"/>
+     <!-- <div class="slds-clearfix">
+      <div class="slds-float_right">    
+       <Center>
+        <lightning:button variant="brand" type="submit" name="Save" label="Save" onclick="{!c.saveProposal}" />
+      <lightning:button variant="brand" type="button" name="saveNew" label="SaveNew" onclick="{!c.savenew}"/>
+       <lightning:button variant="brand" type="cancel" name="cancel" label="Cancel" onclick="{!c.onCancel}"/> 
+        
+    </Center>
+        </div> 
+        </div>  -->
+                  
+     </div>
+    </article>
+</aura:component>

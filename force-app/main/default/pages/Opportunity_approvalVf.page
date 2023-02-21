@@ -1,0 +1,159 @@
+<apex:page standardController="opportunity" extensions="Opportunity_approval" tabStyle="opportunity" lightningStylesheets="true" docType="html-5.0">
+    <br/>
+    <apex:image url="{!$Resource.SmashLogo}" width="150" height="100"/><br/><br/>
+   <html>
+        <apex:slds />
+        <style type="text/css">
+            .close_icon:hover {
+            background-color: #1b5297 !important;
+            background: none;
+            text-decoration: none;
+            }
+        </style>
+    </html>
+    <body>
+    <div class="slds-scope">
+    <apex:form >
+   <apex:inputHidden value="{!recordId}" id="myHiddenField"/> 
+        <apex:actionFunction name="passStringToController" action="{!openModal}" rerender="myHiddenField"/>
+
+        <apex:pageBlock id="oppTable">
+            <legend class="slds-form-element_label slds-text-title_caps slds-has-divider_bottom-space" style="width: 100%;" >Opportunity to approve</legend> 
+                  
+            <apex:pageBlockTable value="{!OpportunityWrapperList}" var="a">
+                <apex:column >
+                    <apex:facet name="header">
+                        <apex:inputCheckbox value="{!allSelect}" immediate="true">
+                            <apex:actionSupport action="{!selectAll}" event="onchange" reRender="oppTable"/>
+                        </apex:inputCheckbox>
+                    </apex:facet>
+                    <apex:inputCheckbox value="{!a.selected}"/>
+                </apex:column>
+                <apex:column headerValue="Opportunity Name" width="14%">
+                 <a id="{!a.opp.Id}" target="_blank" onmouseover="LookupHoverDetail.getHover('{!a.opp.Id}', '/{!a.opp.Id}/m?retURL={!a.opp.Id}&isAjaxRequest=1').show();" onmouseout="LookupHoverDetail.getHover('{!a.opp.Id}').hide();" onfocus="LookupHoverDetail.getHover('{!a.opp.Id}', '/{!a.opp.Id}/m?retURL={!a.opp.Id}&isAjaxRequest=1').show();" onblur="LookupHoverDetail.getHover('{!a.opp.Id}').hide();" href="/{!a.opp.Id}"> 
+                                {!a.opp.Name}
+                            </a> 
+                   <!-- <apex:outputLink title="Opportunity name" value="/{!a.opp.id}" target="_blank">{!a.opp.Name}</apex:outputLink>-->
+                </apex:column>
+                <apex:column headerValue="Amount" value="{!a.opp.Amount}" width="7%"/>
+                <apex:column headerValue="Close Date" value="{!a.opp.CloseDate}" width="8%"/>
+               
+                <apex:column headerValue="Stage Name" value="{!a.opp.StageName}" width="8%"/>
+                <apex:column headerValue="General Ledger Description" value="{!a.opp.General_Ledger_Description__c}" width="18%"/>
+                <apex:column headerValue="Type of Gift" value="{!a.opp.Type_of_Gift__c}" width="10%"/>
+                <apex:column headerValue="GL Class Description" value="{!a.opp.GL_Class_Description__c}" width="10%"/>
+                 <apex:column headerValue="Created By" value="{!a.opp.CreatedById}" width="8%"/>
+                <apex:column headervalue="Account name" value="{!a.opp.AccountId}" width="8%" />
+                <apex:column headerValue="Primary Contact" value="{!a.opp.npsp__Primary_Contact__c}" width="8%"/>
+                <apex:column headerValue="Soft Credit" value="{!a.opp.Soft_Credit__c}" width="8%"/>
+                              <apex:column width="10%">
+                                 
+                           <apex:commandButton styleClass="slds-button slds-button_brand" value="Send Email to Opportunity Owner"  action="{!openModal}" onclick="document.getElementById('popup').style.display='block'" reRender="toAddress,ccAddress,bccAddress" style="height:28px;width:250px;">
+                                <apex:param name="recordId" value="{!a.opp.Id}" assignTo="{!recordId}">
+                                </apex:param>
+                            </apex:commandButton>
+                        </apex:column>
+                
+            </apex:pageBlockTable>
+               <center>
+                      <apex:commandButton styleClass="slds-button slds-button_brand" value="Approve" action="{!approveOpportunity}"/>
+                   <apex:commandButton styleClass="slds-button slds-button_brand" value="Delete and stay here" action="{!DeleteRecord}"/>
+                         <apex:commandButton styleClass="slds-button slds-button_brand" value="Delete and return to Opportunity" action="{!returntolist}"/>
+            </center>
+        </apex:pageBlock>
+         <apex:actionStatus id="gridStatus">
+                        <apex:facet name="start">
+                            <apex:outputPanel >
+                                <div style="position:relative">
+                                    <!--<div class="slds-spinner_container">-->
+                                        <div role="status" class="slds-spinner slds-spinner_small slds-spinner_brand" style="position:absolute"> 
+                                            <span class="slds-assistive-text">Please wait</span>
+                                            <div class="slds-spinner__dot-a"></div>
+                                            <div class="slds-spinner__dot-b"></div>
+                                        </div>
+                                    </div>
+                                <!--</div>-->
+                            </apex:outputPanel>            
+                        </apex:facet>
+                    </apex:actionStatus>
+                     
+                <div style="display:none;" id="popup"> 
+                    <apex:actionStatus id="pageStatus">
+                        <apex:facet name="start">
+                            <apex:outputPanel >
+                                <div class="demo-only" style="height:6rem">
+                                    <!--<div class="slds-spinner_container">-->
+                                        <div role="status" class="slds-spinner slds-spinner_small slds-spinner_brand">
+                                            <span class="slds-assistive-text">Loading</span>
+                                            <div class="slds-spinner__dot-a"></div>
+                                            <div class="slds-spinner__dot-b"></div>
+                                        </div>
+                                    </div>
+                                <!--</div>-->
+                            </apex:outputPanel>            
+                        </apex:facet>
+                    </apex:actionStatus>
+                    
+                    <apex:outputPanel id="modalbox">
+                        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                            <div class="slds-modal__container">
+                                <header class="slds-modal__header">
+                                    <apex:commandButton styleClass="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse close_icon" onclick="document.getElementById('popup').style.display='none'" value="X">
+                                    </apex:commandButton>
+                                    <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">Send Email</h2>
+                                </header>
+                                <div style="padding:2em;" class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                                   <div class="slds-form-element">
+                                        <label class="slds-form-element__label" for="text-input-id-1">
+                                            <abbr class="slds-required" title="required"> </abbr>To</label>
+                                        <div class="slds-form-element__control">
+                                            <apex:input id="toAddress" value="{!toAddress}" styleClass="slds-input" />
+                                        </div>
+                                    </div>
+                                      <div class="slds-form-element">
+                                        <label class="slds-form-element__label" for="text-input-id-1">
+                                            <abbr class="slds-required" title="required"> </abbr>Cc</label>
+                                        <div class="slds-form-element__control">
+                                            <apex:input id="ccAddress" value="{!ccAddress}" styleClass="slds-input" />
+                                        </div>
+                                    </div>
+                                  <!--  <div class="slds-form-element">
+                                        <label class="slds-form-element__label" for="text-input-id-1">
+                                            <abbr class="slds-required" title="required"> </abbr>bcc</label>
+                                        <div class="slds-form-element__control">
+                                            <apex:input id="bccAddress" value="{!bccAddress}" styleClass="slds-input" />
+                                        </div>
+                                    </div>-->
+                                    <br/>
+                                    <div class="slds-form-element">
+                                        <label class="slds-form-element__label" for="text-input-id-1">
+                                            <abbr class="slds-required" title="required"> </abbr>Subject</label>
+                                        <div class="slds-form-element__control">
+                                            
+                                            <apex:input label="Subject" value="{!subject}" styleClass="slds-input" id="subject"/>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <div class="slds-form-element">
+                                        <label class="slds-form-element__label" for="text-input-id-1">
+                                            <abbr class="slds-required" title="required"> </abbr>Body</label>
+                                        <div class="slds-form-element__control">
+                                            <apex:inputtextarea styleClass="ckeditor" richtext="true" value="{!emailBody}" />
+                                           <!-- <apex:inputTextarea richText="false" value="{!emailBody}" cols="80" id="body" />-->
+                                             
+                                        </div>
+                                    </div>
+                                </div>
+                                <footer class="slds-modal__footer">
+                                    <apex:commandButton styleClass="slds-button slds-button_neutral" value="Cancel" onclick="document.getElementById('popup').style.display='none'" />
+                                    <apex:commandButton styleClass="slds-button slds-button_brand" value="Send" action="{!sendEmail}" onclick="document.getElementById('popup').style.display='none'" />
+                                </footer>
+                            </div>
+                        </section>
+                    </apex:outputPanel>
+                    <div class="slds-backdrop slds-backdrop_open"></div>
+                </div>
+            </apex:form>
+        </div>
+    </body>
+</apex:page>

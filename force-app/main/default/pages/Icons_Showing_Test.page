@@ -1,0 +1,14 @@
+<apex:page standardController="account" extensions="Icons_Controoler">
+    <apex:slds />
+    <apex:form > 
+        <apex:image url="{!$Resource.Education}" width="33" height="33" rendered="{!accrec.SMASH_Alum__c=true}"/>
+        <apex:image url="{!$Resource.Household}" width="33" height="33" rendered="{!accrec.HIPPA_Out_put__c=true}"/>
+        <apex:image url="{!$Resource.MoneyBag}" width="33" height="33" rendered="{!accrec.Active__c= true}"/>
+        <apex:image url="{!$Resource.Restricted}" width="33" height="33" rendered="{!accrec.Do_Not_Contact__c=true}"/>
+        <apex:image url="{!$Resource.Volunteer}" width="33" height="33" rendered="{!accrec.Volunteer__c=true}"/>
+        <apex:image url="{!$Resource.Special_handling}" width="33" height="33" rendered="{!accrec.Special_Handling__c=true}" />
+        <apex:image url="{!$Resource.need_to_qualify}" width="33" height="33" rendered="{!accrec.Need_to_qualify__c= true}" />
+        <apex:image url="{!$Resource.disqualified}" width="33" height="33" rendered="{!accrec.Disqualified__c=true}"/>
+        
+    </apex:form>
+</apex:page>

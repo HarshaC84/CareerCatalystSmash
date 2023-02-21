@@ -1,0 +1,178 @@
+<apex:page standardController="Proposal__c" extensions="ProposalController" lightningStylesheets="true">
+    
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+         <head>
+    <style>
+        .head {
+         font-size: 85%;
+        }
+        .slds-scope .slds-icon-standard-account{
+           font-family: 'Salesforce Sans',Arial,sans-serif;
+       
+        line-height: 1.5;
+        background: rgba(176, 196, 223, 1);
+        color: rgb(22, 50, 92);
+        -webkit-tap-highlight-color: transparent;
+        }
+          .One
+             {
+            margin:20px;
+            padding:10px;
+            width:150px;
+            height:100px;
+            baclground-color:blue;
+            border-radius:20px;
+            border:2px solod red;
+             }
+        
+    </style>
+           
+
+        </head>
+        
+   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> 
+  
+     <script type="text/javascript">
+        var $j = jQuery.noConflict();
+        $j(document).ready(function() {
+            setTimeout(function() {
+                $j('select.myMultiClass').each(function(i, val) { 
+                    $j(val).width(130);
+                    $j(val).height(100);
+                })
+            },100);
+        });
+    </script>
+  
+    <apex:form id="frm" >
+        <apex:pageMessages ></apex:pageMessages>
+        <apex:pageBlock title="Proposal Details" id="thePageBlock">
+            <apex:pageBlockButtons location="bottom" >
+                <apex:commandButton value="Cancel" action="{!cancel}"/>
+                <apex:commandButton value="Save & New" action="{!newp}"/>
+                <apex:commandButton value="Save" action="{!save}" onclick="setRequired();"/>
+            </apex:pageBlockButtons>
+              
+                
+                        
+         
+                   <apex:pageBlockSection id="b1" title="Proposals Information Section" columns="2">
+        <div class="one">
+                   <apex:inputField value="{!p.name}" styleClass="requiredInput" required="true" />
+                    
+                   <apex:inputField value="{!p.Campaign__c}"  html-autocomplete="On" />
+                       </div>
+                    <apex:pageBlockSectionItem >
+                        
+                     <apex:actionRegion >
+                             <div class="one">
+                         <apex:outputLabel value="{!$ObjectType.Proposal__c.fields.Proposal_Type__c.label}"
+                                           for="prtype" style="margin-left:20.50%;" styleClass="loader" />
+                         <abbr class="slds-required">* </abbr>
+                         <apex:inputField value="{!p.Proposal_Type__c}" id="prtype">
+                        	<apex:actionSupport event="onchange" reRender="b7"  />
+                         </apex:inputField> 
+                                  </div> 
+                     </apex:actionRegion>
+                     </apex:pageBlockSectionItem>
+     
+
+                <!-- Don't hard code picklist values
+                     
+               <apex:actionRegion>     
+                   
+                    <apex:outputLabel value="{!$ObjectType.Proposal__c.fields.Proposal_Type__c.label}" style="margin:auto;"/>
+                   			<abbr class="slds-required"><b>*</b></abbr>
+                   <apex:selectList label="Proposal Type" id="prtype" value="{!p.Proposal_Type__c}" size="1" required="true" >
+                        <apex:actionSupport event="onchange" reRender="thePageBlock"  />
+                        <apex:selectOption itemValue="" itemLabel="--None--"/>
+                        <apex:selectOption itemValue="Individual" itemLabel="Individual"/>
+                        <apex:selectOption itemValue="Organization" itemLabel="Organization"/>            
+                    </apex:selectList> 
+                  
+                </apex:actionRegion>
+
+-->
+                     
+              
+               
+                      <apex:inputField value="{!p.SMASH_Site_Interest__c}" styleClass="myMultiClass" />
+                      
+                <apex:pageBlockSectionItem >
+                     <apex:actionRegion >
+                         <apex:outputLabel value="{!$ObjectType.Proposal__c.fields.Status__c.label}"
+                                           for="staId" style="margin-left:27.50%;"
+                                          
+                                            />
+                         <abbr class="slds-required">* </abbr>
+                         <apex:inputField value="{!p.Status__c}" id="staId">
+                        	<apex:actionSupport event="onchange" reRender="b5"  />
+                         </apex:inputField>   
+                     </apex:actionRegion>
+                </apex:pageBlockSectionItem> 
+                        
+            
+                     
+         <!-- Don't hard code picklist values
+                    <apex:actionRegion > 
+                   
+                     <apex:outputLabel value="{!$ObjectType.Proposal__c.fields.Status__c.label}" style="margin-left:28.70%;" />
+						<abbr class="slds-required"><b>*</b>
+						</abbr><apex:selectList label="Status" value="{!p.Status__c}" size="1" id="staId" required="true" > 
+                        <apex:actionSupport event="onchange" reRender="b5"/>
+                        <apex:selectOption itemValue="" itemLabel="--None--"/>
+                        <apex:selectOption itemValue="Qualification" itemLabel="Qualification"/>
+                        <apex:selectOption itemValue="Cultivation" itemLabel="Cultivation"/>
+                        <apex:selectOption itemValue="Solicitation" itemLabel="Solicitation"/>
+                        <apex:selectOption itemValue="Approved" itemLabel="Approved"/>
+                        <apex:selectOption itemValue="Declined" itemLabel="Declined"/>
+                    </apex:selectList>
+                    
+                </apex:actionRegion>
+          -->
+                 
+             <!--  <apex:actionRegion ><abbr class="slds-required"><b>*</b></abbr>
+ <apex:outputLabel value="{!$ObjectType.Proposal__c.fields.Status__c.label}"/><apex:inputField style="margin-left:26.85%;" value="{!p.Status__c}" required="true"  >
+                     <apex:actionSupport event="onchange" reRender="b5"/></apex:inputField></apex:actionRegion>-->
+                       
+                      
+                       
+                <apex:inputField value="{!p.Development_Team_Point_Person_1__c}" id="Devid1" html-autocomplete="On" required="true"/>
+                <apex:inputField value="{!p.Comments__c}" html-autocomplete="On" />
+                <apex:inputField value="{!p.Development_Team_Point_Person_2__c}"/>
+                    <apex:inputfield value="{!p.Region__c }"/>
+                <apex:outputText > &nbsp;</apex:outputText> 
+                <apex:inputField value="{!p.Deadline__c}"/>
+                                    
+            </apex:pageBlockSection> 
+            
+             <apex:pageBlockSection id="b7" title="Account/Conatct Information" columns="2">
+                         
+                       <apex:inputField value="{!p.Account__c}" id="AccId" rendered="{!p.Proposal_Type__c == 'Organization'}" html-autocomplete="On" required="true" />
+                                 
+                     <apex:inputField value="{!p.Contact__c}" id="conId" rendered="{!p.Proposal_Type__c == 'Individual'}" html-autocomplete="On" required="true"  />
+               
+                     </apex:pageBlockSection>                   
+              
+            <apex:pageBlockSection id="b2" title="Dates & Amount Sectoin">
+                <apex:inputField value="{!p.Amount_Asked__c}" required="true"/>
+                
+                <apex:inputField value="{!p.Date_Asked__c}" required="true" />
+                <apex:inputField value="{!p.Amount_Expected__c}"/>
+               
+                <apex:inputField value="{!p.Date_Expected__c}"/>
+                <apex:inputField value="{!p.Amount_Approved__c}" required="true"/>
+                <apex:inputField value="{!p.Date_Approved__c}" required="true" />
+                
+                 
+             
+                
+            </apex:pageBlockSection>
+            <apex:pageBlockSection id="b5" title="Linked Gift Section">
+                <apex:inputField id="gift" value="{!p.Linked_Gift__c}" rendered="{!p.Status__c =='Approved'}"/>
+            </apex:pageBlockSection>  
+           
+        </apex:pageBlock>
+    </apex:form>
+    </html>
+</apex:page>

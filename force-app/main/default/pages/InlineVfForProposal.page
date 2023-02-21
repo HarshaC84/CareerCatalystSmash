@@ -1,0 +1,42 @@
+<apex:page standardController="Proposal__c" extensions="InLineVfControllerForProposal" lightningStylesheets="true" >
+<apex:slds />
+<style>
+   body .slds-vf-panel-grid td:last-child {
+	padding-left: 40px !important;
+}
+    body .slds-vf-panel-grid td:first-child {
+	width: 80px;
+	
+}
+    
+    .slds-form-element_horizontal:not(.slds-is-editing), .slds-form_horizontal .slds-form-element:not(.slds-is-editing), .slds-form_stacked .slds-form-element_horizontal:not(.slds-is-editing) {
+    padding: var(--lwc-varSpacingXxSmall,0.25rem) var(--lwc-spacingXxSmall,0.25rem);
+}
+   .individualPalette.lookupHoverDetail.lookupHoverDetailOverridable {
+    left: 30px !important;
+    top: 50.75px !important;
+    width: 100%;
+    z-index: 999999 !important;
+    height: 144px !important;
+}
+body .slds-vf-panel-grid td { padding:.25rem .0rem;  border-bottom: var(--lwc-borderWidthThin,1px) solid var(--lwc-colorBorder,rgb(221, 219, 218));}
+    body label, .slds-vf-scope label {
+    display: inline-block;
+    margin-right: .3rem;
+    font-size: .75rem;
+    line-height: 1.5;
+    color: rgb(62, 62, 60);
+}
+    @media (min-width: 40em)
+.slds-form-element_horizontal .slds-form-element__control, .slds-form_horizontal .slds-form-element .slds-form-element__control, .slds-form_stacked .slds-form-element_horizontal .slds-form-element__control {
+    padding-left: 10%;
+    clear: none;
+}
+</style>
+<apex:form >
+    <apex:panelGrid columns="2">
+             <apex:outputLabel value="{!$ObjectType.Proposal__c.fields.Contact__c.label}" rendered="{!acc.Proposal_Type__c='Individual'}" ></apex:outputLabel><apex:outputField value="{!acc.Contact__c}" rendered="{!acc.Proposal_Type__c='Individual'}" style=" padding-left: 20px;"/>
+          <apex:outputLabel value="{!$ObjectType.Proposal__c.fields.Account__c.label}" rendered="{!acc.Proposal_Type__c='Organization'}"></apex:outputLabel>   <apex:outputField value="{!acc.Account__c}" rendered="{!acc.Proposal_Type__c='Organization'}"/>
+                </apex:panelGrid>
+</apex:form>
+</apex:page>

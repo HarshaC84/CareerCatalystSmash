@@ -1,0 +1,97 @@
+<apex:page standardController="Opportunity" recordSetVar="opportunities" extensions="SendListEmailCont" lightningStylesheets="true" doctype="html-5.0">
+    <head>
+    </head>
+    <style>
+        .pbHeader
+        {
+        position: relative;
+        left: 44%;
+        }
+        .mainTitle
+        {
+        font-size: 1.8rem !important;  
+        }  
+        body
+        {
+        overflow-x: hidden;
+        } 
+        body .bPageBlock .detailList .labelCol, .slds-vf-scope .bPageBlock .detailList .labelCol
+        {
+        text-align: left !important;  
+        }
+        body label, .slds-vf-scope label 
+        {
+        display: inline-block;
+        margin-right: .75rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        color: #000 !important;
+        }   
+        
+       
+    </style>
+ <style type="text/css">
+        .sbox { width: 250px; }
+    </style>    
+    <apex:form >
+        <script>
+        function HideBody(istrue)
+        {
+            var checkval = document.getElementById("showbody");
+            if(istrue.checked)
+            {   
+                var checkval = document.getElementById("showbody").style.display='none';
+                var Tvalues = 'true';
+                bodyfn(Tvalues);
+            }else
+            {
+                var checkval = document.getElementById("showbody").style.display='block';
+                var Fvalues = 'false';
+                bodyfn(Fvalues);
+            }
+        }
+        </script>
+        <apex:pageBlock title="SEND EMAIL" >
+            <apex:pageMessages />
+            <font color="#FFFFFF">
+                <font size="5px">
+                    <div id="ct1">
+                        <apex:image id="theImage" value="{!$Resource.SmashLogoNew}" width="170"/>
+                    </div><br/>   
+                </font>
+            </font> 
+            
+            
+            <apex:pageBlockSection columns="2">
+                <apex:inputText label="Selected Opportunities : " value="{!ss}" style="margin-left:0px"/> 
+                <apex:selectList label="Selected Template : " id="fname" value="{!SelectedItem}" size="1" multiselect="false" styleClass="sbox">
+                    <apex:selectOptions value="{!selectedRT}" />
+                </apex:selectList>   
+            </apex:pageBlockSection>  
+            
+            
+            
+            <apex:pageBlockSection >
+                <apex:inputText label="Selected Contacts : " value="{!ss1}" style="margin-left:0px"/> 
+                <apex:inputCheckbox id="checkbox" label="With Template" onchange="HideBody(this);"/>
+            </apex:pageBlockSection>
+            <div id="showbody">
+                <apex:pageBlockSection >
+                
+         <apex:inputText label="Subject : " value="{!ss2}" />   
+              
+            </apex:pageBlockSection>
+            <apex:pageBlockSection >
+         <apex:inputTextarea label="Body : " richtext="true" value="{!ss3}" style="height:120px;width:45px;"/>           
+             </apex:pageBlockSection>
+            </div>
+            <apex:pageBlockButtons location="Bottom">
+                <apex:commandButton value="Send Email" action="{!SendEmailTO}"  />
+                <apex:commandButton value="Cancel" action="{!cancel}"/>
+            </apex:pageBlockButtons>
+        </apex:pageBlock>
+        <apex:actionFunction name="bodyfn" action="{!mailMethod}" reRender="resultPanel" status="myStatus">
+            <apex:param name="param" assignTo="{!withtemplate}" value="" />
+        </apex:actionFunction> 
+    </apex:form> 
+</apex:page>

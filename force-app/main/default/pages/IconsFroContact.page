@@ -1,0 +1,15 @@
+<apex:page standardController="contact" extensions="IconsForContact">
+<apex:slds />
+    
+<apex:form > 
+              <apex:image url="{!$Resource.Education}" width="33" height="33" rendered="{!conrec.SMASH_Alum__c=true}" />
+                <apex:image url="{!$Resource.Household}" width="33" height="33" rendered="{!conrec.Board_Committee__c=true}" />
+            <apex:image url="{!$Resource.MoneyBag}" width="33" height="33" rendered="{!conrec.Donor__c= true}" />
+              <apex:image url="{!$Resource.Restricted}" width="33" height="33" rendered="{!conrec.npsp__Do_Not_Contact__c=true}"/>
+
+              <apex:image url="{!$Resource.Volunteer}" width="33" height="33" rendered="{!conrec.Volunteer__c=true}"/>
+                <apex:image url="{!$Resource.Special_handling}" width="33" height="33" rendered="{!conrec.Special_Handling__c=true}" />
+            <apex:image url="{!$Resource.need_to_qualify}" width="33" height="33" rendered="{!conrec.Need_to_qualify__c= true}" />
+              <apex:image url="{!$Resource.disqualified}" width="33" height="33" rendered="{!conrec.Disqualified__c=true}"/>
+</apex:form>
+</apex:page>
